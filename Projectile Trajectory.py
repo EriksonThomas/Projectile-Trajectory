@@ -2,6 +2,7 @@ import matplotlib.pyplot as plot
 from matplotlib.animation import FuncAnimation
 import numpy as np
 import math as math
+import time
 
 #y=xtanθ−gx22v2cos2θ
 
@@ -46,7 +47,7 @@ def animation_frame(number):
 
 def take_user_velocity():
     while is_valid == False:
-        velocity = input("What is your desired velocity for the ball? (f/s): ")
+        velocity = input("What is your desired velocity for the ball? (ft/s): ")
         if not velocity.isnumeric():
             print("Sorry, your velocity must only contain numbers.") 
             continue
@@ -69,9 +70,29 @@ if __name__ == "__main__":
     print("Max hieght: " + "{:.2f}".format(calculate_max_height(velocity, angle)))
 
     fig, ax = plot.subplots()
+    fig.patch.set_facecolor((0.078, 0.078, 0.078))
     ax.set_xlim(0, x_lim + (x_lim * .1))
     ax.set_ylim(0, y_lim + (y_lim * .1))
-    line, = ax.plot(0,0)
+    ax.set_facecolor((0.078, 0.078, 0.078))
+    ax.spines['bottom'].set_color((.309, .309, .309))
 
-    animation = FuncAnimation(fig, func=animation_frame, frames=np.arange(0, x_lim + (x_lim * .1), .1), interval = 10)
+    ax.spines['top'].set_color((.309, .309, .309)) 
+    ax.spines['right'].set_color((.309, .309, .309))
+    ax.spines['left'].set_color((.309, .309, .309))
+    ax.tick_params(axis='x', colors=(.309, .309, .309))
+    ax.tick_params(axis='y', colors=(.309, .309, .309))
+    plot.xlabel("Distance (ft)", color = ('white'), labelpad = 7)
+    plot.ylabel("Height (ft)", color = ('white'), labelpad = 10)
+    line, = ax.plot(0,0, color = ('white'), solid_capstyle='round', linewidth = 3)
+
+    if x_lim > y_lim:
+        limmiter = x_lim
+    else:
+        limmiter = y_lim
+        
+    ax = plot.gca()
+    ax.set_xlim([0, limmiter * 1.1])
+    ax.set_ylim([0, limmiter * 1.1])
+
+    animation = FuncAnimation(fig, func=animation_frame, frames=np.arange(0, 500, .1), interval = 10)
     plot.show()
